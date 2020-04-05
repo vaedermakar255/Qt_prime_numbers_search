@@ -3,6 +3,7 @@
  
  ![Image alt](https://github.com/vaedermakar255/Qt_prime_numbers_search/raw/master/image/alpha.PNG)
  
- # Current problems/bugs:
+ # Current problems/bugs/imperfections:
  - the ability to stop the search is not implemented  
  - the program starts to slow down and does not respond when N >= 10000000, but the calculations continue
+ - so far only Russian is available
