@@ -224,7 +224,7 @@ void MainWindow::on_startButton_clicked()
 
     setAllButtonsEnabled();
 }
-
+//============================================================================================
 void MainWindow::on_radioButton_100000_clicked()
 {
     m_searchLimit = 100000;
@@ -232,7 +232,7 @@ void MainWindow::on_radioButton_100000_clicked()
     ui->progressBar->setRange(0, m_searchLimit);
     ui->progressBar->reset();
 }
-
+//============================================================================================
 void MainWindow::on_radioButton_1000000_clicked()
 {
     m_searchLimit = 1000000;
@@ -240,7 +240,7 @@ void MainWindow::on_radioButton_1000000_clicked()
     ui->progressBar->setRange(0, m_searchLimit);
     ui->progressBar->reset();
 }
-
+//============================================================================================
 void MainWindow::on_radioButton_10000000_clicked()
 {
     m_searchLimit = 10000000;
@@ -248,7 +248,7 @@ void MainWindow::on_radioButton_10000000_clicked()
     ui->progressBar->setRange(0, m_searchLimit);
     ui->progressBar->reset();
 }
-
+//============================================================================================
 void MainWindow::on_radioButton_100000000_clicked()
 {
     m_searchLimit = 100000000;
@@ -256,7 +256,7 @@ void MainWindow::on_radioButton_100000000_clicked()
     ui->progressBar->setRange(0, m_searchLimit);
     ui->progressBar->reset();
 }
-
+//============================================================================================
 void MainWindow::on_resetButton_clicked()
 {
     m_primeNumbers = 0;
@@ -265,7 +265,7 @@ void MainWindow::on_resetButton_clicked()
     ui->lcdPrimeNumbersFound->display(0);
     ui->lcdTimePassed->display(0);
 }
-
+//============================================================================================
 void MainWindow::setAllButtonsDisabled() noexcept
 {
     ui->startButton->setEnabled(false);
@@ -282,7 +282,7 @@ void MainWindow::setAllButtonsDisabled() noexcept
     ui->sieveOfSundaramRadioButton->setEnabled(false);
     ui->sieveOfAtkinRadioButton->setEnabled(false);
 }
-
+//============================================================================================
 void MainWindow::setAllButtonsEnabled() noexcept
 {
     ui->startButton->setEnabled(true);
