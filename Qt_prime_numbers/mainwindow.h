@@ -17,6 +17,9 @@ private:
 
     // Algorithms:
     void originalPrimeNumberSearchAlgorithm(const int NUMBERS) noexcept;
+    void sieveOfEratosthenes(const int NUMBERS) noexcept;
+    void sieveOfSundaram(int NUMBERS) noexcept;
+    void sieveOfAtkin(int const NUMBERS) noexcept;
 
     // Controls all buttons except resetButton
     void setAllButtonsDisabled() noexcept;

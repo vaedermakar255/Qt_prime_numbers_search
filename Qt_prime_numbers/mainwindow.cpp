@@ -1,8 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+//#include <ctime> // why clock() works without this header?
+#include <QVector>
+#include <cmath>
+#include <QDebug>
 
-//#include <ctime> // почему clock() работает без этого хедера?
-
+//============================================================================================
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -10,42 +13,42 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     m_primeNumbers = 0;
     m_progressBarStep = 0;
 }
-
+//============================================================================================
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+//============================================================================================
 void MainWindow::originalPrimeNumberSearchAlgorithm(const int NUMBERS) noexcept
 {
-    int checkNumber = 0; // Проверяемое число
-    int delitel = 0; // Подборка делителя
-    m_primeNumbers = 1; // Количество всех простых чисел
-    bool flag = 0; // Бинарный маркер
-    int start_time = clock(); // для таймера
+    int checkNumber = 0;
+    int divider = 0;
+    m_primeNumbers = 1;
+    bool flag = 0;
+    int start_time = clock(); // for timer
 
-    // Цикл перебирает только нечётные числа, пропуская каждое третье
+    // the cycle iterates over only odd numbers, skipping every third
     for(checkNumber = 3; checkNumber <= NUMBERS; checkNumber+=2)
     {
-        unsigned int passNum = 3; // Для пропуска каждого третьего делителя (не являющегося простым)
-        for(delitel = 3; delitel*delitel <= checkNumber; delitel+=2) // Цикл перебирает делители
+        unsigned int passNum = 3; // to skip every third divider (which is not prime)
+        for(divider = 3; divider*divider <= checkNumber; divider+=2) // Цикл перебирает делители
         {
 
-            if(checkNumber % delitel == 0) // Проверка на простоту
-            {   // Если делитель найден - число составное, выход из цикла
-                // и проверка следующего числа checkNumber
+            if(checkNumber % divider == 0) // prime checking
+            {   // if divider was found - it is not prime number, exit the cycle
+                // and check next number
                 flag = 1;
                 break;
             }
 
             --passNum;
-            if(!passNum) // Когда passNum == 0, восстанавливаем счетчик и пропускаем делитель
+            if(!passNum) // when passNum == 0, renew counter and skipping the divider
             {
                 passNum = 2;
-                delitel += 2;
+                divider += 2;
             }
         }
-        if(!flag) // Если делитель не найден - число простое
+        if(!flag) // if divider is not found - number is prime
         {
             ++m_primeNumbers;
             ui->lcdPrimeNumbersFound->display(m_primeNumbers);
@@ -53,17 +56,156 @@ void MainWindow::originalPrimeNumberSearchAlgorithm(const int NUMBERS) noexcept
         else
             flag = 0;
 
-        // Настройка програсс-бара
+        // progress-bar set
         m_progressBarStep = checkNumber;
         ui->progressBar->setValue(m_progressBarStep);
 
-        // Узнаём время c момента начала поиска до текущей итерации
+        // find out the time from the start of the search to the current iteration
         int end_time = clock();
         ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
     }
 }
+//============================================================================================
+void MainWindow::sieveOfEratosthenes(int const NUMBERS) noexcept
+{
+    m_primeNumbers = 0;
+    int start_time = clock();
 
-// -запретить менять N после нажатия кнопки
+    QVector<bool> array(NUMBERS + 1, true);
+    array[0] = array[1] = false;
+
+    for(int i = 2; i * i <= NUMBERS; ++i) // valid for n < 46340^2 = 2147395600
+    {
+        if(array[i])
+        {
+            for(int j = i * i; j <= NUMBERS; j += i)
+            {
+                array[j] = false;
+            }
+        }
+    }
+
+    // counting and output prime numbers of vector
+    for(int i = 0; i < NUMBERS+1; ++i)
+    {
+        if(array[i])
+        {
+            ++m_primeNumbers;
+            ui->lcdPrimeNumbersFound->display(m_primeNumbers);
+
+            m_progressBarStep = i;
+            ui->progressBar->setValue(m_progressBarStep);
+
+            int end_time = clock();
+            ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
+        }
+    }
+}
+//============================================================================================
+void MainWindow::sieveOfSundaram(int NUMBERS) noexcept
+{
+    NUMBERS /= 2;
+    m_primeNumbers = 0;
+    int start_time = clock();
+
+    int i, j, index;
+
+    QVector<bool> array(NUMBERS+1, true);
+
+    for(i = 1; 2*i*(i+1) < NUMBERS; ++i)
+        for(j = i; index = 2*i*j+i+j, index <= NUMBERS; ++j)
+            array[index] = false;
+
+    // counting and output prime numbers of vector
+    for(int i = 0; i < NUMBERS; ++i)
+    {
+        if(array[i])
+        {
+            ++m_primeNumbers;
+            ui->lcdPrimeNumbersFound->display(m_primeNumbers);
+
+            m_progressBarStep = i * 2;
+            ui->progressBar->setValue(m_progressBarStep);
+
+            int end_time = clock();
+            ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
+        }
+    }
+}
+//============================================================================================
+void MainWindow::sieveOfAtkin(int const NUMBERS) noexcept
+{
+    int limit = NUMBERS;
+    int sqr_lim;
+    QVector<bool> is_prime(limit+1, false);
+    int x2, y2;
+    int i, j;
+    int n;
+
+    int start_time = clock();
+    m_primeNumbers = 0; // maybe 2
+
+    // Инициализация решета
+    sqr_lim = (int)sqrt((long double)limit);
+
+    is_prime[2] = true;
+    is_prime[3] = true;
+
+    // Предположительно простые — это целые с нечётным числом
+    // представлений в данных квадратных формах.
+    // x2 и y2 — это квадраты i и j (оптимизация).
+    x2 = 0;
+    for(i = 1; i <= sqr_lim; ++i)
+    {
+        x2 += 2 * i - 1;
+        y2 = 0;
+        for(j = 1; j <= sqr_lim; ++j)
+        {
+            y2 += 2 * j - 1;
+
+            n = 4 * x2 + y2;
+            if ((n <= limit) && (n % 12 == 1 || n % 12 == 5))
+                is_prime[n] = !is_prime[n];
+
+            // n = 3 * x2 + y2;
+            n -= x2; // Оптимизация
+            if ((n <= limit) && (n % 12 == 7))
+                is_prime[n] = !is_prime[n];
+
+            // n = 3 * x2 - y2;
+            n -= 2 * y2; // Оптимизация
+            if ((i > j) && (n <= limit) && (n % 12 == 11))
+                is_prime[n] = !is_prime[n];
+        }
+    }
+
+    // Отсеиваем кратные квадратам простых чисел в интервале [5, sqrt(limit)].
+    // (основной этап не может их отсеять)
+    for(i = 5; i <= sqr_lim; ++i) {
+        if (is_prime[i]) {
+            n = i * i;
+            for(j = n; j <= limit; j += n)
+                is_prime[j] = false;
+        }
+    }
+
+    // counting and output prime numbers of vector
+    for(int i = 0; i < NUMBERS; ++i)
+    {
+        if(is_prime[i])
+        {
+            ++m_primeNumbers;
+            ui->lcdPrimeNumbersFound->display(m_primeNumbers);
+
+            m_progressBarStep = i * 2;
+            ui->progressBar->setValue(m_progressBarStep);
+
+            int end_time = clock();
+            ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
+        }
+    }
+}
+//============================================================================================
 void MainWindow::on_startButton_clicked()
 {
     setAllButtonsDisabled();
@@ -73,12 +215,16 @@ void MainWindow::on_startButton_clicked()
     if(ui->originRadioButton->isChecked())
         originalPrimeNumberSearchAlgorithm(m_searchLimit);
 
-    // Здесь будут другие алгоритмы
+    if(ui->sieveOfEratosthenesRadioButton->isChecked())
+        sieveOfEratosthenes(m_searchLimit);
+
+    if(ui->sieveOfSundaramRadioButton->isChecked())
+        sieveOfSundaram(m_searchLimit);
+
+    if(ui->sieveOfAtkinRadioButton->isChecked())
+        sieveOfAtkin(m_searchLimit);
 
     setAllButtonsEnabled();
-
-
-
 }
 
 void MainWindow::on_radioButton_100000_clicked()
@@ -155,4 +301,3 @@ void MainWindow::setAllButtonsEnabled() noexcept
     ui->sieveOfSundaramRadioButton->setEnabled(true);
     ui->sieveOfAtkinRadioButton->setEnabled(true);
 }
-
