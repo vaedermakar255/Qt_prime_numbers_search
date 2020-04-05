@@ -3,8 +3,6 @@
 //#include <ctime> // why clock() works without this header?
 #include <QVector>
 #include <cmath>
-#include <QDebug>
-
 //============================================================================================
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -31,7 +29,7 @@ void MainWindow::originalPrimeNumberSearchAlgorithm(const int NUMBERS) noexcept
     for(checkNumber = 3; checkNumber <= NUMBERS; checkNumber+=2)
     {
         unsigned int passNum = 3; // to skip every third divider (which is not prime)
-        for(divider = 3; divider*divider <= checkNumber; divider+=2) // Цикл перебирает делители
+        for(divider = 3; divider*divider <= checkNumber; divider+=2) // loop iterates over dividers
         {
 
             if(checkNumber % divider == 0) // prime checking
@@ -145,15 +143,15 @@ void MainWindow::sieveOfAtkin(int const NUMBERS) noexcept
     int start_time = clock();
     m_primeNumbers = 0; // maybe 2
 
-    // Инициализация решета
+    // Sieve initialization
     sqr_lim = (int)sqrt((long double)limit);
 
     is_prime[2] = true;
     is_prime[3] = true;
 
-    // Предположительно простые — это целые с нечётным числом
-    // представлений в данных квадратных формах.
-    // x2 и y2 — это квадраты i и j (оптимизация).
+    // Presumably simple - these are integers with an odd number
+    // representations in given square forms.
+    // x2 and y2 are the squares i and j (optimization).
     x2 = 0;
     for(i = 1; i <= sqr_lim; ++i)
     {
@@ -168,19 +166,19 @@ void MainWindow::sieveOfAtkin(int const NUMBERS) noexcept
                 is_prime[n] = !is_prime[n];
 
             // n = 3 * x2 + y2;
-            n -= x2; // Оптимизация
+            n -= x2; // optimization
             if ((n <= limit) && (n % 12 == 7))
                 is_prime[n] = !is_prime[n];
 
             // n = 3 * x2 - y2;
-            n -= 2 * y2; // Оптимизация
+            n -= 2 * y2; // optimization
             if ((i > j) && (n <= limit) && (n % 12 == 11))
                 is_prime[n] = !is_prime[n];
         }
     }
 
-    // Отсеиваем кратные квадратам простых чисел в интервале [5, sqrt(limit)].
-    // (основной этап не может их отсеять)
+    // Sift out the multiple squares of primes in the interval [5, sqrt (limit)].
+    // (the main stage cannot weed them out)
     for(i = 5; i <= sqr_lim; ++i) {
         if (is_prime[i]) {
             n = i * i;
