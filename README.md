@@ -7,3 +7,4 @@
  - the ability to stop the search is not implemented  
  - the program starts to slow down or does not respond when N >= 10000000, but the calculations continue
  - so far only Russian is available
+ - planned to introduce multithreading support
