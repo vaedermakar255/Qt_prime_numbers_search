@@ -5,14 +5,12 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    MainWindow w;
 
-    w.getMainMenu().addAction("&Exit",
-                              &app, SLOT( quit() )
-                            );
+    MainWindow window;
 
+    window.getMainMenu().addAction("&Exit", &app, SLOT(quit()));
 
-    w.show();
+    window.show();
 
     return app.exec();
 }

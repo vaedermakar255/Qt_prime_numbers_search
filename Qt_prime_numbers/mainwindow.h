@@ -32,8 +32,8 @@ public:
     QMenu& getMainMenu() const;
 
 public slots:
-    void setRussianLanguage();
-    void setEnglishLanguage();
+    void setRussianLanguage(bool signal);
+    void setEnglishLanguage(bool signal);
 
 private slots:
     void on_startButton_clicked();
@@ -42,10 +42,4 @@ private slots:
     void on_radioButton_1000000_clicked();
     void on_radioButton_10000000_clicked();
     void on_radioButton_100000000_clicked();
-};
-
-
-enum
-{
-    English, Russian
 };
