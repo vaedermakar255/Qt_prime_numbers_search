@@ -931,7 +931,6 @@
     </widget>
     <addaction name="menuSetLanguage"/>
     <addaction name="separator"/>
-    <addaction name="actionExit"/>
    </widget>
    <addaction name="mainMenu"/>
   </widget>
