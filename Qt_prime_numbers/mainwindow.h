@@ -29,6 +29,12 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
+    QMenu& getMainMenu() const;
+
+public slots:
+    void setRussianLanguage();
+    void setEnglishLanguage();
+
 private slots:
     void on_startButton_clicked();
     void on_resetButton_clicked();
@@ -38,3 +44,8 @@ private slots:
     void on_radioButton_100000000_clicked();
 };
 
+
+enum
+{
+    English, Russian
+};

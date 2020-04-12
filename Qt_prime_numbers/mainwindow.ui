@@ -498,14 +498,14 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
-          <widget class="QGroupBox" name="groupBox">
+          <widget class="QGroupBox" name="groupBoxNNumber">
            <property name="font">
             <font>
              <pointsize>10</pointsize>
             </font>
            </property>
            <property name="title">
-            <string>Задайте число N:</string>
+            <string>Set the N number:</string>
            </property>
            <widget class="QWidget" name="verticalLayoutWidget">
             <property name="geometry">
@@ -669,21 +669,21 @@
         </spacer>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_2">
+        <widget class="QGroupBox" name="groupBoxAlgorithm">
          <property name="font">
           <font>
            <pointsize>10</pointsize>
           </font>
          </property>
          <property name="title">
-          <string>Выберите алгоритм:</string>
+          <string>Set the algorithm:</string>
          </property>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>10</x>
             <y>10</y>
-            <width>181</width>
+            <width>192</width>
             <height>201</height>
            </rect>
           </property>
@@ -707,28 +707,28 @@
            <item>
             <widget class="QRadioButton" name="originRadioButton">
              <property name="text">
-              <string>Стандарт</string>
+              <string>Standard</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QRadioButton" name="sieveOfEratosthenesRadioButton">
              <property name="text">
-              <string>Решето Эратосфена</string>
+              <string>Sieve of Eratosthenes</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QRadioButton" name="sieveOfSundaramRadioButton">
              <property name="text">
-              <string>Решето Сундарама</string>
+              <string>Sieve of Sundaram</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QRadioButton" name="sieveOfAtkinRadioButton">
              <property name="text">
-              <string>Решето Аткина</string>
+              <string>Sieve of Atkin</string>
              </property>
             </widget>
            </item>
@@ -780,7 +780,7 @@
             <enum>Qt::DefaultContextMenu</enum>
            </property>
            <property name="text">
-            <string>Стоп/Сброс</string>
+            <string>Stop/Reset</string>
            </property>
           </widget>
          </item>
@@ -819,31 +819,31 @@
             </font>
            </property>
            <property name="text">
-            <string>Старт</string>
+            <string>Start</string>
            </property>
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="timePassedLabel">
            <property name="font">
             <font>
              <pointsize>12</pointsize>
             </font>
            </property>
            <property name="text">
-            <string>Времени прошло:</string>
+            <string>Time passed:</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="primesFoundLabel">
            <property name="font">
             <font>
              <pointsize>12</pointsize>
             </font>
            </property>
            <property name="text">
-            <string>Простых чисел найдено:</string>
+            <string>Primes found:</string>
            </property>
           </widget>
          </item>
@@ -906,24 +906,34 @@
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>703</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuLanguage">
+   <widget class="QMenu" name="mainMenu">
     <property name="title">
-     <string>Language</string>
+     <string>Menu</string>
     </property>
+    <widget class="QMenu" name="menuSetLanguage">
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="title">
+      <string>Language</string>
+     </property>
+     <addaction name="actionSetRussian"/>
+     <addaction name="actionSetEnglish"/>
+    </widget>
+    <addaction name="menuSetLanguage"/>
     <addaction name="separator"/>
-    <addaction name="actionEnglish"/>
-    <addaction name="action_2"/>
+    <addaction name="actionExit"/>
    </widget>
-   <addaction name="menuLanguage"/>
+   <addaction name="mainMenu"/>
   </widget>
   <action name="actionEnglish">
    <property name="text">
@@ -933,6 +943,36 @@
   <action name="action_2">
    <property name="text">
     <string>Русский</string>
+   </property>
+  </action>
+  <action name="actionSetRussian">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Русский</string>
+   </property>
+  </action>
+  <action name="actionSetEnglish">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
    </property>
   </action>
  </widget>

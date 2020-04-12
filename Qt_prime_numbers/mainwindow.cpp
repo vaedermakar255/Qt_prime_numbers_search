@@ -3,6 +3,10 @@
 //#include <ctime> // why clock() works without this header?
 #include <QVector>
 #include <cmath>
+#include <QDebug>
+
+static int currentLanguage = English;
+
 //============================================================================================
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -10,6 +14,14 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     m_searchLimit = 0;
     m_primeNumbers = 0;
     m_progressBarStep = 0;
+
+    QObject::connect(ui->actionSetRussian, SIGNAL(toggled(bool)),
+                                this, SLOT(changeLanguage())
+                                );
+    QObject::connect(ui->actionSetEnglish, SIGNAL(toggled(bool)),
+                                this, SLOT(changeLanguage())
+                                );
+
 }
 //============================================================================================
 MainWindow::~MainWindow()
@@ -298,4 +310,67 @@ void MainWindow::setAllButtonsEnabled() noexcept
     ui->sieveOfEratosthenesRadioButton->setEnabled(true);
     ui->sieveOfSundaramRadioButton->setEnabled(true);
     ui->sieveOfAtkinRadioButton->setEnabled(true);
+}
+//============================================================================================
+QMenu& MainWindow::getMainMenu() const
+{
+    return *(ui->mainMenu);
+}
+//============================================================================================
+void MainWindow::setRussianLanguage()
+{
+
+    if(currentLanguage == Russian)
+    {
+        ui->actionSetEnglish->setEnabled(false);
+
+        //ui->actionSetRussian->setChecked(false);
+       //ui->actionSetEnglish->setChecked(true);
+
+        ui->actionSetRussian->setEnabled(true);
+
+        ui->mainMenu->setTitle("Menu");
+        ui->menuSetLanguage->setTitle("Language");
+        ui->actionExit->setText("Exit");
+        ui->groupBoxNNumber->setTitle("Set the N number:");
+        ui->groupBoxAlgorithm->setTitle("Set the algorithm:");
+        ui->originRadioButton->setText("Standard");
+        ui->sieveOfEratosthenesRadioButton->setText("Sieve of Eratosthenes");
+        ui->sieveOfSundaramRadioButton->setText("Sieve of Sundaram");
+        ui->sieveOfAtkinRadioButton->setText("Sieve of Atkin");
+        ui->timePassedLabel->setText("Time passed:");
+        ui->primesFoundLabel->setText("Primes found:");
+        ui->startButton->setText("Start");
+        ui->resetButton->setText("Stop/Reset");
+    }
+
+    if(currentLanguage == English)
+    {
+        ui->actionSetEnglish->setEnabled(true);
+
+        //ui->actionSetRussian->setChecked(true);
+        //ui->actionSetEnglish->setChecked(false);
+
+        ui->actionSetRussian->setEnabled(false);
+
+        ui->mainMenu->setTitle("Меню");
+        ui->menuSetLanguage->setTitle("Язык");
+        ui->actionExit->setText("Выход");
+        ui->groupBoxNNumber->setTitle("Задайте число N:");
+        ui->groupBoxAlgorithm->setTitle("Выберите алгоритм:");
+        ui->originRadioButton->setText("Стандарт");
+        ui->sieveOfEratosthenesRadioButton->setText("Решето Эратосфена");
+        ui->sieveOfSundaramRadioButton->setText("Решето Сундарама");
+        ui->sieveOfAtkinRadioButton->setText("Решето Аткина");
+        ui->timePassedLabel->setText("Времени прошло:");
+        ui->primesFoundLabel->setText("Простых чисел найдено:");
+        ui->startButton->setText("Старт");
+        ui->resetButton->setText("Стоп/Сброс");
+    }
+
+    if(currentLanguage == English)
+        currentLanguage = Russian;
+
+    else
+        currentLanguage = English;
 }
