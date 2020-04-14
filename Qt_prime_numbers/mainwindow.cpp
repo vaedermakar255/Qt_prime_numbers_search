@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
                                 this, SLOT(setEnglishLanguage(bool))
                                 );
 
+    ui->spinBox->setButtonSymbols(QSpinBox::PlusMinus); // does not work for some reason (with Qt Designer too)
+
 }
 //============================================================================================
 MainWindow::~MainWindow()
