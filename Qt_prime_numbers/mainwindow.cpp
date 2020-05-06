@@ -11,10 +11,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     m_primeNumbers = 0;
     m_progressBarStep = 0;
 
-    QObject::connect(ui->actionSetRussian, SIGNAL(toggled(bool)),
+    connect(ui->actionSetRussian, SIGNAL(toggled(bool)),
                                 this, SLOT(setRussianLanguage(bool))
                                 );
-    QObject::connect(ui->actionSetEnglish, SIGNAL(toggled(bool)),
+    connect(ui->actionSetEnglish, SIGNAL(toggled(bool)),
                                 this, SLOT(setEnglishLanguage(bool))
                                 );
 
@@ -71,6 +71,7 @@ void MainWindow::originalPrimeNumberSearchAlgorithm(const int NUMBERS) noexcept
         // find out the time from the start of the search to the current iteration
         int end_time = clock();
         ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
+        QApplication::processEvents();
     }
 }
 //============================================================================================
@@ -106,6 +107,7 @@ void MainWindow::sieveOfEratosthenes(int const NUMBERS) noexcept
 
             int end_time = clock();
             ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
+            QApplication::processEvents();
         }
     }
 }
@@ -137,6 +139,7 @@ void MainWindow::sieveOfSundaram(int NUMBERS) noexcept
 
             int end_time = clock();
             ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
+            QApplication::processEvents();
         }
     }
 }
@@ -210,6 +213,7 @@ void MainWindow::sieveOfAtkin(int const NUMBERS) noexcept
 
             int end_time = clock();
             ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
+            QApplication::processEvents();
         }
     }
 }
