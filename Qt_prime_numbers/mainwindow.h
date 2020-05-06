@@ -16,10 +16,10 @@ private:
     int m_progressBarStep;
 
     // Algorithms:
-    void originalPrimeNumberSearchAlgorithm(const int NUMBERS) noexcept;
-    void sieveOfEratosthenes(const int NUMBERS) noexcept;
-    void sieveOfSundaram(int NUMBERS) noexcept;
-    void sieveOfAtkin(int const NUMBERS) noexcept;
+    void originalPrimeNumberSearchAlgorithm(const size_t NUMBERS) noexcept;
+    void sieveOfEratosthenes(const size_t NUMBERS) noexcept;
+    void sieveOfSundaram(size_t NUMBERS) noexcept;
+    void sieveOfAtkin(size_t const NUMBERS) noexcept;
 
     // Controls all buttons except resetButton
     void setAllButtonsDisabled() noexcept;

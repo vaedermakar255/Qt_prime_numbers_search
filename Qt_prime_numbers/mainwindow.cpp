@@ -27,18 +27,19 @@ MainWindow::~MainWindow()
     delete ui;
 }
 //============================================================================================
-void MainWindow::originalPrimeNumberSearchAlgorithm(const int NUMBERS) noexcept
+void MainWindow::originalPrimeNumberSearchAlgorithm(const size_t NUMBERS) noexcept
 {
-    int checkNumber = 0;
-    int divider = 0;
+    size_t checkNumber = 0;
+    size_t divider = 0;
     m_primeNumbers = 1;
     bool flag = 0;
-    int start_time = clock(); // for timer
+    size_t start_time = clock(); // for timer
+    size_t k = 0;
 
     // the cycle iterates over only odd numbers, skipping every third
     for(checkNumber = 3; checkNumber <= NUMBERS; checkNumber+=2)
     {
-        unsigned int passNum = 3; // to skip every third divider (which is not prime)
+        size_t passNum = 3; // to skip every third divider (which is not prime)
         for(divider = 3; divider*divider <= checkNumber; divider+=2) // loop iterates over dividers
         {
 
@@ -69,13 +70,17 @@ void MainWindow::originalPrimeNumberSearchAlgorithm(const int NUMBERS) noexcept
         ui->progressBar->setValue(m_progressBarStep);
 
         // find out the time from the start of the search to the current iteration
-        int end_time = clock();
+        size_t end_time = clock();
         ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
-        QApplication::processEvents();
+
+
+        if(k % 100000 == 0)
+            QApplication::processEvents();
+        ++k;
     }
 }
 //============================================================================================
-void MainWindow::sieveOfEratosthenes(int const NUMBERS) noexcept
+void MainWindow::sieveOfEratosthenes(size_t const NUMBERS) noexcept
 {
     m_primeNumbers = 0;
     int start_time = clock();
@@ -83,11 +88,11 @@ void MainWindow::sieveOfEratosthenes(int const NUMBERS) noexcept
     QVector<bool> array(NUMBERS + 1, true);
     array[0] = array[1] = false;
 
-    for(int i = 2; i * i <= NUMBERS; ++i) // valid for n < 46340^2 = 2147395600
+    for(size_t i = 2; i * i <= NUMBERS; ++i) // valid for n < 46340^2 = 2147395600
     {
         if(array[i])
         {
-            for(int j = i * i; j <= NUMBERS; j += i)
+            for(size_t j = i * i; j <= NUMBERS; j += i)
             {
                 array[j] = false;
             }
@@ -95,7 +100,7 @@ void MainWindow::sieveOfEratosthenes(int const NUMBERS) noexcept
     }
 
     // counting and output prime numbers of vector
-    for(int i = 0; i < NUMBERS+1; ++i)
+    for(size_t i = 0; i < NUMBERS+1; ++i)
     {
         if(array[i])
         {
@@ -107,18 +112,19 @@ void MainWindow::sieveOfEratosthenes(int const NUMBERS) noexcept
 
             int end_time = clock();
             ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
-            QApplication::processEvents();
+            if(i % 100000 == 0)
+                QApplication::processEvents();
         }
     }
 }
 //============================================================================================
-void MainWindow::sieveOfSundaram(int NUMBERS) noexcept
+void MainWindow::sieveOfSundaram(size_t NUMBERS) noexcept
 {
     NUMBERS /= 2;
     m_primeNumbers = 0;
     int start_time = clock();
 
-    int i, j, index;
+    size_t i, j, index;
 
     QVector<bool> array(NUMBERS+1, true);
 
@@ -127,7 +133,7 @@ void MainWindow::sieveOfSundaram(int NUMBERS) noexcept
             array[index] = false;
 
     // counting and output prime numbers of vector
-    for(int i = 0; i < NUMBERS; ++i)
+    for(size_t i = 0; i < NUMBERS; ++i)
     {
         if(array[i])
         {
@@ -139,12 +145,13 @@ void MainWindow::sieveOfSundaram(int NUMBERS) noexcept
 
             int end_time = clock();
             ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
-            QApplication::processEvents();
         }
+        if(i % 100000 == 0)
+            QApplication::processEvents();
     }
 }
 //============================================================================================
-void MainWindow::sieveOfAtkin(int const NUMBERS) noexcept
+void MainWindow::sieveOfAtkin(size_t const NUMBERS) noexcept
 {
     int limit = NUMBERS;
     int sqr_lim;
@@ -201,7 +208,7 @@ void MainWindow::sieveOfAtkin(int const NUMBERS) noexcept
     }
 
     // counting and output prime numbers of vector
-    for(int i = 0; i < NUMBERS; ++i)
+    for(size_t i = 0; i < NUMBERS; ++i)
     {
         if(is_prime[i])
         {
@@ -213,8 +220,9 @@ void MainWindow::sieveOfAtkin(int const NUMBERS) noexcept
 
             int end_time = clock();
             ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
-            QApplication::processEvents();
         }
+        if(i % 100000 == 0)
+            QApplication::processEvents();
     }
 }
 //============================================================================================
