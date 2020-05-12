@@ -7,9 +7,10 @@
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    m_searchLimit = 0;
-    m_primeNumbers = 0;
-    m_progressBarStep = 0;
+    m_searchLimit                  = 0;
+    m_primeNumbers                 = 0;
+    m_progressBarStep              = 0;
+    m_resetButtonClickedAfterStart = false;
 
     connect(ui->actionSetRussian, SIGNAL(toggled(bool)),
                                 this, SLOT(setRussianLanguage(bool))
@@ -42,6 +43,10 @@ void MainWindow::originalPrimeNumberSearchAlgorithm(const size_t NUMBERS) noexce
         size_t passNum = 3; // to skip every third divider (which is not prime)
         for(divider = 3; divider*divider <= checkNumber; divider+=2) // loop iterates over dividers
         {
+            if(m_resetButtonClickedAfterStart)
+            {
+                return;
+            }
 
             if(checkNumber % divider == 0) // prime checking
             {   // if divider was found - it is not prime number, exit the cycle
@@ -102,6 +107,11 @@ void MainWindow::sieveOfEratosthenes(size_t const NUMBERS) noexcept
     // counting and output prime numbers of vector
     for(size_t i = 0; i < NUMBERS+1; ++i)
     {
+        if(m_resetButtonClickedAfterStart)
+        {
+            return;
+        }
+
         if(array[i])
         {
             ++m_primeNumbers;
@@ -135,6 +145,11 @@ void MainWindow::sieveOfSundaram(size_t NUMBERS) noexcept
     // counting and output prime numbers of vector
     for(size_t i = 0; i < NUMBERS; ++i)
     {
+        if(m_resetButtonClickedAfterStart)
+        {
+            return;
+        }
+
         if(array[i])
         {
             ++m_primeNumbers;
@@ -210,6 +225,11 @@ void MainWindow::sieveOfAtkin(size_t const NUMBERS) noexcept
     // counting and output prime numbers of vector
     for(size_t i = 0; i < NUMBERS; ++i)
     {
+        if(m_resetButtonClickedAfterStart)
+        {
+            return;
+        }
+
         if(is_prime[i])
         {
             ++m_primeNumbers;
@@ -228,6 +248,7 @@ void MainWindow::sieveOfAtkin(size_t const NUMBERS) noexcept
 //============================================================================================
 void MainWindow::on_startButton_clicked()
 {
+    m_resetButtonClickedAfterStart = false;
     setAllButtonsDisabled();
 
     m_searchLimit = ui->spinBox->value();
@@ -281,6 +302,7 @@ void MainWindow::on_radioButton_100000000_clicked()
 //============================================================================================
 void MainWindow::on_resetButton_clicked()
 {
+    m_resetButtonClickedAfterStart = true;
     m_primeNumbers = 0;
     m_progressBarStep = 0;
     ui->progressBar->reset();

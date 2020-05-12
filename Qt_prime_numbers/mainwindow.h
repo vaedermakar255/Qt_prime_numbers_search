@@ -14,6 +14,8 @@ private:
     int m_searchLimit;
     int m_primeNumbers;
     int m_progressBarStep;
+    // To stop calculations
+    bool m_resetButtonClickedAfterStart;
 
     // Algorithms:
     void originalPrimeNumberSearchAlgorithm(const size_t NUMBERS) noexcept;
