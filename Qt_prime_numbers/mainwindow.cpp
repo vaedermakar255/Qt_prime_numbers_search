@@ -19,8 +19,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
                                 this, SLOT(setEnglishLanguage(bool))
                                 );
 
-    ui->spinBox->setButtonSymbols(QSpinBox::PlusMinus); // does not work for some reason (with Qt Designer too)
-
+    // does not work for some reason (with Qt Designer too)
+    ui->spinBox->setButtonSymbols(QSpinBox::PlusMinus);
 }
 //============================================================================================
 MainWindow::~MainWindow()
@@ -38,17 +38,17 @@ void MainWindow::originalPrimeNumberSearchAlgorithm(const size_t NUMBERS) noexce
     size_t k = 0;
 
     // the cycle iterates over only odd numbers, skipping every third
-    for(checkNumber = 3; checkNumber <= NUMBERS; checkNumber+=2)
+    for (checkNumber = 3; checkNumber <= NUMBERS; checkNumber+=2)
     {
         size_t passNum = 3; // to skip every third divider (which is not prime)
-        for(divider = 3; divider*divider <= checkNumber; divider+=2) // loop iterates over dividers
+        for (divider = 3; divider*divider <= checkNumber; divider+=2) // loop iterates over dividers
         {
-            if(m_resetButtonClickedAfterStart)
+            if (m_resetButtonClickedAfterStart)
             {
                 return;
             }
 
-            if(checkNumber % divider == 0) // prime checking
+            if (checkNumber % divider == 0) // prime checking
             {   // if divider was found - it is not prime number, exit the cycle
                 // and check next number
                 flag = 1;
@@ -56,13 +56,13 @@ void MainWindow::originalPrimeNumberSearchAlgorithm(const size_t NUMBERS) noexce
             }
 
             --passNum;
-            if(!passNum) // when passNum == 0, renew counter and skipping the divider
+            if (!passNum) // when passNum == 0, renew counter and skipping the divider
             {
                 passNum = 2;
                 divider += 2;
             }
         }
-        if(!flag) // if divider is not found - number is prime
+        if (!flag) // if divider is not found - number is prime
         {
             ++m_primeNumbers;
             ui->lcdPrimeNumbersFound->display(m_primeNumbers);
@@ -78,14 +78,13 @@ void MainWindow::originalPrimeNumberSearchAlgorithm(const size_t NUMBERS) noexce
         size_t end_time = clock();
         ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
 
-
-        if(k % 100000 == 0)
+        if (k % 100000 == 0)
             QApplication::processEvents();
         ++k;
     }
 }
 //============================================================================================
-void MainWindow::sieveOfEratosthenes(size_t const NUMBERS) noexcept
+void MainWindow::sieveOfEratosthenes(const size_t NUMBERS) noexcept
 {
     m_primeNumbers = 0;
     int start_time = clock();
@@ -93,11 +92,11 @@ void MainWindow::sieveOfEratosthenes(size_t const NUMBERS) noexcept
     QVector<bool> array(NUMBERS + 1, true);
     array[0] = array[1] = false;
 
-    for(size_t i = 2; i * i <= NUMBERS; ++i) // valid for n < 46340^2 = 2147395600
+    for (size_t i = 2; i * i <= NUMBERS; ++i) // valid for n < 46340^2 = 2147395600
     {
-        if(array[i])
+        if (array[i])
         {
-            for(size_t j = i * i; j <= NUMBERS; j += i)
+            for (size_t j = i * i; j <= NUMBERS; j += i)
             {
                 array[j] = false;
             }
@@ -105,14 +104,14 @@ void MainWindow::sieveOfEratosthenes(size_t const NUMBERS) noexcept
     }
 
     // counting and output prime numbers of vector
-    for(size_t i = 0; i < NUMBERS+1; ++i)
+    for (size_t i = 0; i < NUMBERS+1; ++i)
     {
-        if(m_resetButtonClickedAfterStart)
+        if (m_resetButtonClickedAfterStart)
         {
             return;
         }
 
-        if(array[i])
+        if (array[i])
         {
             ++m_primeNumbers;
             ui->lcdPrimeNumbersFound->display(m_primeNumbers);
@@ -122,7 +121,7 @@ void MainWindow::sieveOfEratosthenes(size_t const NUMBERS) noexcept
 
             int end_time = clock();
             ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
-            if(i % 100000 == 0)
+            if (i % 100000 == 0)
                 QApplication::processEvents();
         }
     }
@@ -138,19 +137,19 @@ void MainWindow::sieveOfSundaram(size_t NUMBERS) noexcept
 
     QVector<bool> array(NUMBERS+1, true);
 
-    for(i = 1; 2*i*(i+1) < NUMBERS; ++i)
+    for (i = 1; 2*i*(i+1) < NUMBERS; ++i)
         for(j = i; index = 2*i*j+i+j, index <= NUMBERS; ++j)
             array[index] = false;
 
     // counting and output prime numbers of vector
-    for(size_t i = 0; i < NUMBERS; ++i)
+    for (size_t i = 0; i < NUMBERS; ++i)
     {
-        if(m_resetButtonClickedAfterStart)
+        if (m_resetButtonClickedAfterStart)
         {
             return;
         }
 
-        if(array[i])
+        if (array[i])
         {
             ++m_primeNumbers;
             ui->lcdPrimeNumbersFound->display(m_primeNumbers);
@@ -161,12 +160,12 @@ void MainWindow::sieveOfSundaram(size_t NUMBERS) noexcept
             int end_time = clock();
             ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
         }
-        if(i % 100000 == 0)
+        if (i % 100000 == 0)
             QApplication::processEvents();
     }
 }
 //============================================================================================
-void MainWindow::sieveOfAtkin(size_t const NUMBERS) noexcept
+void MainWindow::sieveOfAtkin(const size_t NUMBERS) noexcept
 {
     int limit = NUMBERS;
     int sqr_lim;
@@ -188,11 +187,11 @@ void MainWindow::sieveOfAtkin(size_t const NUMBERS) noexcept
     // representations in given square forms.
     // x2 and y2 are the squares i and j (optimization).
     x2 = 0;
-    for(i = 1; i <= sqr_lim; ++i)
+    for (i = 1; i <= sqr_lim; ++i)
     {
         x2 += 2 * i - 1;
         y2 = 0;
-        for(j = 1; j <= sqr_lim; ++j)
+        for (j = 1; j <= sqr_lim; ++j)
         {
             y2 += 2 * j - 1;
 
@@ -214,23 +213,23 @@ void MainWindow::sieveOfAtkin(size_t const NUMBERS) noexcept
 
     // Sift out the multiple squares of primes in the interval [5, sqrt (limit)].
     // (the main stage cannot weed them out)
-    for(i = 5; i <= sqr_lim; ++i) {
+    for (i = 5; i <= sqr_lim; ++i) {
         if (is_prime[i]) {
             n = i * i;
-            for(j = n; j <= limit; j += n)
+            for (j = n; j <= limit; j += n)
                 is_prime[j] = false;
         }
     }
 
     // counting and output prime numbers of vector
-    for(size_t i = 0; i < NUMBERS; ++i)
+    for (size_t i = 0; i < NUMBERS; ++i)
     {
-        if(m_resetButtonClickedAfterStart)
+        if (m_resetButtonClickedAfterStart)
         {
             return;
         }
 
-        if(is_prime[i])
+        if (is_prime[i])
         {
             ++m_primeNumbers;
             ui->lcdPrimeNumbersFound->display(m_primeNumbers);
@@ -241,7 +240,7 @@ void MainWindow::sieveOfAtkin(size_t const NUMBERS) noexcept
             int end_time = clock();
             ui->lcdTimePassed->display((double)(end_time-start_time) / 1000);
         }
-        if(i % 100000 == 0)
+        if (i % 100000 == 0)
             QApplication::processEvents();
     }
 }
@@ -253,16 +252,16 @@ void MainWindow::on_startButton_clicked()
 
     m_searchLimit = ui->spinBox->value();
 
-    if(ui->originRadioButton->isChecked())
+    if (ui->originRadioButton->isChecked())
         originalPrimeNumberSearchAlgorithm(m_searchLimit);
 
-    if(ui->sieveOfEratosthenesRadioButton->isChecked())
+    if (ui->sieveOfEratosthenesRadioButton->isChecked())
         sieveOfEratosthenes(m_searchLimit);
 
-    if(ui->sieveOfSundaramRadioButton->isChecked())
+    if (ui->sieveOfSundaramRadioButton->isChecked())
         sieveOfSundaram(m_searchLimit);
 
-    if(ui->sieveOfAtkinRadioButton->isChecked())
+    if (ui->sieveOfAtkinRadioButton->isChecked())
         sieveOfAtkin(m_searchLimit);
 
     setAllButtonsEnabled();
@@ -351,15 +350,11 @@ QMenu& MainWindow::getMainMenu() const
 //============================================================================================
 void MainWindow::setRussianLanguage(bool signal)
 {
-    if(!signal)
+    if (!signal)
         return;
-
-    //ui->actionSetEnglish->setEnabled(true);
 
     ui->actionSetRussian->setChecked(true);
     ui->actionSetEnglish->setChecked(false);
-
-    //ui->actionSetRussian->setEnabled(false);
 
     ui->mainMenu->setTitle("Меню");
     ui->menuSetLanguage->setTitle("Язык");
@@ -378,15 +373,11 @@ void MainWindow::setRussianLanguage(bool signal)
 //============================================================================================
 void MainWindow::setEnglishLanguage(bool signal)
 {
-    if(!signal)
+    if (!signal)
         return;
-
-    //ui->actionSetEnglish->setEnabled(false);
 
     ui->actionSetRussian->setChecked(false);
     ui->actionSetEnglish->setChecked(true);
-
-    //ui->actionSetRussian->setEnabled(true);
 
     ui->mainMenu->setTitle("Menu");
     ui->menuSetLanguage->setTitle("Language");
